@@ -41,7 +41,9 @@ app.post("/api/users", (req, res) => {
     const body = req.body;
     console.log("Body", body)
     users.push({ ...body, id: users.length + 1 });
-    fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) => {
+
+    const formattedUsers = users.map(user => JSON.stringify(user)).join(",\n");
+    fs.writeFile("./MOCK_DATA.json", `[\n${formattedUsers}\n]`, (err, data) => {
         return res.json({ status: "Pending" });
     });
     return res.json({ status: "Pending", data: users })
